@@ -1,0 +1,81 @@
+# All calls are made through https with authentication headers (~)
+# Authentication headers are made of the hash of the users e-mail and the device id
+
+
+- /register * no authentication header required
+     + eMail: string
+     + name: string
+     = success: true / false
+     = error: true / false
+     = message: string
+- /device/register * partial authentication header required
+     ~ userHash
+     + userId: int
+     + description: string
+     = success: true / false
+     = error: true / false
+     = message: string
+- /account
+     ~ userHash + deviceHash
+     + userId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = type: string
+     = balance: double
+- /account/services
+     ~ userHash + deviceHash
+     + userId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = services: string[]
+- /account/users * account-specific
+     ~ userHash + deviceHash
+     + userId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = users: string[] * account-specific presence
+- /account/nfts * account-specific
+     ~ userHash + deviceHash
+     + userId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = nfts: string[] * account-specific presence
+- /user * account-specific
+     ~ userHash + deviceHash
+     + userId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = type: string
+     = services: string[]
+     = balance: double
+     = nfts: string[]
+- /user/create * account-specific
+     ~ userHash + deviceHash
+     + email: string
+     + name: string
+     + services: string[]
+     = success: true / false
+     = error: true / false
+     = message: string
+     = userId: int
+- /nft * account-specific
+     ~ userHash + deviceHash
+     + userId: int
+     + nftId: int
+     = success: true / false
+     = error: true / false
+     = message: string
+     = metadata: string[]
+- /nft/create * account-specific
+     ~ userHash + deviceHash
+     + userId: int
+     + metadata: string[]
+     = success: true / false
+     = error: true / false
+     = message: string
+     = type: string
